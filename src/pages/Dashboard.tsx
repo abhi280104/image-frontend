@@ -29,6 +29,7 @@ const Dashboard = () => {
   const [zoomedImage, setZoomedImage] = useState<string | null>(null);
   const [analyzedImage, setAnalyzedImage] = useState<{ url: string; analysis: string } | null>(null);
   const [analyzingIndex, setAnalyzingIndex] = useState<number | null>(null);
+  const API_URL = import.meta.env.VITE_API_URL;
 
   // 🔹 Ensure user is authenticated, otherwise redirect to login
   useEffect(() => {
@@ -47,7 +48,7 @@ const Dashboard = () => {
     try {
       const token = localStorage.getItem("token");
       console.log("📸 Fetching images from API...");
-      const res = await axios.get("http://127.0.0.1:5001/api/images", {
+      const res = await axios.get(`${API_URL}/api/images`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -68,7 +69,7 @@ const Dashboard = () => {
       formData.append("file", image);
   
       const token = localStorage.getItem("token");
-      const res = await axios.post("http://127.0.0.1:5001/api/upload", formData, {
+      const res = await axios.post(`${API_URL}/api/upload`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
@@ -102,7 +103,7 @@ const Dashboard = () => {
 
       console.log("🔄 Sending image to analysis API...");
       const res = await axios.post(
-        "http://127.0.0.1:5001/api/analyze",
+        `${API_URL}/api/analyze`,
         { image_url: imageUrl },
         { headers: { Authorization: `Bearer ${token}` } }
       );

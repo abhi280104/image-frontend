@@ -18,6 +18,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const API_URL = import.meta.env.VITE_API_URL;
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,7 +28,7 @@ const Login = () => {
     console.log("🔹 Password:", password.replace(/./g, "*")); // Mask password for security
 
     try {
-      const res = await axios.post("http://127.0.0.1:5001/api/login", {
+      const res = await axios.post(`${API_URL}/api/login`, {
         email,
         password,
       });
